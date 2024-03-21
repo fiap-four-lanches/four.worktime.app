@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    env_file:
+      - .env
+    container_name: db
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=fourworktime
+      - POSTGRES_HOST_AUTH_METHOD="trust"
+    ports:
+      - "5432:5432"
+  app:
+    env_file:
+      - .env
+    image: fourworktimeapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: four-worktime-app
+    depends_on:
+      - db
+    environment:
+      - POSTGRESQL_DATASOURCE_URL=${POSTGRESQL_DATASOURCE_URL}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+    ports:
+      - "8080:8080"
