@@ -1,18 +1,18 @@
 package com.fiap.techchallenge.fourworktimeapp.application.dto;
 
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
-import java.time.LocalDateTime;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-public class AuthRegisterResponseDTO {
-    private String registry;
-    private LocalDateTime createdAt;
+public class AuthRegisterResponseDTO extends RepresentationModel<AuthRegisterResponseDTO> {
+    private AuthRegisterDataResponseDTO data;
 
-    public static AuthRegisterResponseDTO fromEmployee(Employee employee) {
-        return new AuthRegisterResponseDTO(employee.getRegistry(), employee.getCreatedAt());
+    @JsonCreator
+    public AuthRegisterResponseDTO(@JsonProperty("data") AuthRegisterDataResponseDTO data) {
+        this.data = data;
     }
 }

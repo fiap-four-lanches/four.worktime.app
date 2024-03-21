@@ -1,16 +1,16 @@
 package com.fiap.techchallenge.fourworktimeapp.adapter.driver.api.controller;
 
 import com.fiap.techchallenge.fourworktimeapp.application.auth.JwtUtil;
-import com.fiap.techchallenge.fourworktimeapp.application.dto.AuthLoginRequestDTO;
-import com.fiap.techchallenge.fourworktimeapp.application.dto.AuthLoginResponseDTO;
-import com.fiap.techchallenge.fourworktimeapp.application.dto.AuthRegisterRequestDTO;
-import com.fiap.techchallenge.fourworktimeapp.application.dto.AuthRegisterResponseDTO;
+import com.fiap.techchallenge.fourworktimeapp.application.dto.*;
 import com.fiap.techchallenge.fourworktimeapp.domain.employee.usecase.EmployeeUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("v1/auth")
@@ -28,7 +28,8 @@ public class AuthController {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getRegistry(), login.getPassword()));
         var registry = authentication.getName();
         var token = jwtUtil.createToken(login.toEmployee());
-        var loginRes = new AuthLoginResponseDTO(registry, token);
+        var loginRes = new AuthLoginResponseDTO(new AuthLoginDataResponseDTO(registry, token));
+        loginRes.add(linkTo(methodOn(AuthController.class).login(login)).withSelfRel());
 
         return ResponseEntity.ok(loginRes);
     }
@@ -38,7 +39,8 @@ public class AuthController {
     public ResponseEntity<AuthRegisterResponseDTO> register(@RequestBody AuthRegisterRequestDTO register) {
         var employee = register.toWorkerEmployee();
         var registeredEmployee = employeeUseCase.registerEmployee(employee);
-        var response = AuthRegisterResponseDTO.fromEmployee(registeredEmployee);
+        var response = new AuthRegisterResponseDTO(AuthRegisterDataResponseDTO.fromEmployee(registeredEmployee));
+        response.add(linkTo(methodOn(AuthController.class).register(register)).withSelfRel());
 
         return ResponseEntity.ok(response);
     }
