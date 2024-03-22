@@ -1,6 +1,6 @@
 package com.fiap.techchallenge.fourworktimeapp.application.auth;
 
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;

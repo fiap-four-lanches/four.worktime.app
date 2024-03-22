@@ -2,7 +2,7 @@ package com.fiap.techchallenge.fourworktimeapp.adapter.driver.api.controller;
 
 import com.fiap.techchallenge.fourworktimeapp.application.auth.JwtUtil;
 import com.fiap.techchallenge.fourworktimeapp.application.dto.*;
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.usecase.EmployeeUseCase;
+import com.fiap.techchallenge.fourworktimeapp.domain.usecase.EmployeeUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
