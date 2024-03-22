@@ -5,7 +5,7 @@ Aplicação MVP para demonstração no Hackathon da FIAP Post Tech - SOAT1.
 ## TODOs
 - [x] Add login endpoint and routes protection
 - [x] Add register endpoint (extra)
-- [ ] Add clock in/clock out endpoint for work time registration endpoint
+- [x] Add clock in/clock out endpoint for work time registration endpoint
 - [ ] Add work time summary endpoint
 - [ ] Add monthly report generation endpoint
 
