@@ -2,15 +2,12 @@ package com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.repository;
 
 import com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.EmployeeJpaRepository;
 import com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.entity.EmployeeJpaEntity;
-import com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.repository.EmployeeRepositoryImpl;
 import com.fiap.techchallenge.fourworktimeapp.application.exception.EmployeeNotFoundException;
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
