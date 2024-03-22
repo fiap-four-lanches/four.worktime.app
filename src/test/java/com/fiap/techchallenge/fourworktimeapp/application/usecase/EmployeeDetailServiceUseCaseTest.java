@@ -1,8 +1,8 @@
 package com.fiap.techchallenge.fourworktimeapp.application.usecase;
 
 import com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.repository.EmployeeRepositoryImpl;
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Role;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ public class EmployeeDetailServiceUseCaseTest {
      * Test for loadUserByUsername method. Employee is found in the repository.
      */
     @Test
-    public void loadUserByUsernameTest_EmployeeFound() {
+    public void shouldLoadUserByUsernameTestWhenEmployeeFound() {
         // Arrange
         var employee = new Employee(1L, "reg123456", "password", Role.WORKER, LocalDateTime.now(), LocalDateTime.now());
 
@@ -43,7 +43,7 @@ public class EmployeeDetailServiceUseCaseTest {
     }
 
     @Test
-    public void loadUserByUsernameTest_EmployeeNotFound() {
+    public void shouldThrowExceptionWhileLoadUserByUsernameTestWhenEmployeeNotFound() {
         // Arrange & Act
         Mockito.when(employeeRepository.findEmployeeByRegistry("123456")).thenThrow(new UsernameNotFoundException("username not found"));
 

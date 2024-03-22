@@ -1,7 +1,7 @@
 package com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.entity;
 
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Role;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

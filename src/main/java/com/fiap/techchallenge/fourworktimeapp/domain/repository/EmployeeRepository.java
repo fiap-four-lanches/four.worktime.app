@@ -1,6 +1,6 @@
-package com.fiap.techchallenge.fourworktimeapp.domain.employee.repository;
+package com.fiap.techchallenge.fourworktimeapp.domain.repository;
 
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
 import org.springframework.stereotype.Repository;
 
 @Repository

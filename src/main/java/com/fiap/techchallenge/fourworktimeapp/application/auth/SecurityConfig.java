@@ -3,6 +3,7 @@ package com.fiap.techchallenge.fourworktimeapp.application.auth;
 import com.fiap.techchallenge.fourworktimeapp.application.usecase.EmployeeDetailServiceUseCase;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import static java.lang.String.format;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
@@ -53,6 +55,7 @@ public class SecurityConfig {
         http.exceptionHandling(exceptionHandlingCustomizer -> {
             exceptionHandlingCustomizer.authenticationEntryPoint(
                     (request, response, ex) -> {
+                        log.warn("employee not authorized to access endpoint");
                         response.sendError(
                                 HttpServletResponse.SC_UNAUTHORIZED,
                                 ex.getMessage()

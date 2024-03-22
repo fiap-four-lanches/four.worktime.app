@@ -1,6 +1,6 @@
 package com.fiap.techchallenge.fourworktimeapp.application.usecase;
 
-import com.fiap.techchallenge.fourworktimeapp.domain.employee.entity.Employee;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
 import com.fiap.techchallenge.fourworktimeapp.adapter.driven.data.repository.EmployeeRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

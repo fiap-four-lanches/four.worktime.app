@@ -1,4 +1,4 @@
-package com.fiap.techchallenge.fourworktimeapp.domain.employee.entity;
+package com.fiap.techchallenge.fourworktimeapp.domain.entity;
 
 public enum Role {
     WORKER("worker"),

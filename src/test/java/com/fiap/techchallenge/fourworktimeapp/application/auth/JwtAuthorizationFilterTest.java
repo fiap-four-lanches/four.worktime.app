@@ -46,7 +46,7 @@ class JwtAuthorizationFilterTest {
     private MockHttpServletResponse response;
 
     @Test
-    void testDoFilterInternalWithoutToken() throws Exception {
+    void shouldDoFilterInternalWithoutTokenAndProceed() throws Exception {
         // Arrange
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
@@ -62,7 +62,7 @@ class JwtAuthorizationFilterTest {
     }
 
     @Test
-    void testDoFilterInternalWithInvalidToken() throws Exception {
+    void shouldDoFilterInternalWithInvalidTokenAndBlockWith403() throws Exception {
         // Arrange
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
@@ -91,7 +91,7 @@ class JwtAuthorizationFilterTest {
     }
 
     @Test
-    void testDoFilterInternalWithValidToken() throws Exception {
+    void shouldDoFilterInternalWithValidTokenAndProceed() throws Exception {
         // Arrange
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
