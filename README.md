@@ -48,12 +48,12 @@ os containers sem a etapa de build.
 ### 4. Testando
 
 #### 4.1 Com insomnia
-Para executar as requisições com o insomnia, basta importar o arquivo `fourwoktimeapp_2024-03-21.json`
+Para executar as requisições com o insomnia, basta importar o arquivo `fourwoktimeapp.json`
 no seu insomnia que a collection estará pronta para ser usada. Detalhe ao usar a porta configurada na aplicação, que por
 padrão é a 8080, mas se entrar em conflito será necessário troca-la.
 
 ### 4.2 Com HAR
-Para executar as requisições com o insomnia, basta importar o arquivo `fourwoktimeapp_2024-03-21.har`
+Para executar as requisições com o insomnia, basta importar o arquivo `fourwoktimeapp.har`
 no seu insomnia que a collection estará pronta para ser usada. Detalhe ao usar a porta configurada na aplicação, que por
 padrão é a 8080, mas se entrar em conflito será necessário troca-la.
 
