@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ClockEntry {
+    private String registry;
     private Long employeeId;
     private LocalDateTime clockedTime;
     private boolean wasManuallyModified;

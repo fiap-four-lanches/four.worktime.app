@@ -55,7 +55,7 @@ public class ClockControllerTest {
         var employeeId = 1L;
         var clockedTime = LocalDateTime.now();
         boolean wasManuallyModified = false;
-        var clockEntryRequest = new ClockEntryRequestDTO(employeeId, clockedTime, wasManuallyModified);
+        var clockEntryRequest = new ClockEntryRequestDTO("reg123456",employeeId, clockedTime, wasManuallyModified);
         var clockedEntry = clockEntryRequest.toEntry();
         given(useCase.clockInOrClockOut(eq(clockedEntry))).willReturn(clockedEntry.toClock());
 

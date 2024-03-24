@@ -2,7 +2,9 @@ package com.fiap.techchallenge.fourworktimeapp.application.usecase;
 
 import com.fiap.techchallenge.fourworktimeapp.domain.entity.Clock;
 import com.fiap.techchallenge.fourworktimeapp.domain.entity.ClockType;
+import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
 import com.fiap.techchallenge.fourworktimeapp.domain.repository.ClockRepository;
+import com.fiap.techchallenge.fourworktimeapp.domain.repository.EmployeeRepository;
 import com.fiap.techchallenge.fourworktimeapp.domain.valueobject.ClockEntry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +28,9 @@ public class ClockUseCaseImplTest {
     @Mock
     private ClockRepository clockRepository;
 
+    @Mock
+    EmployeeRepository employeeRepository;
+
     @InjectMocks
     private ClockUseCaseImpl clockUseCase;
 
@@ -34,7 +39,7 @@ public class ClockUseCaseImplTest {
     public void shouldClockInWhenDataIsNew() {
         // Arrange
         var clockTime = LocalDateTime.now();
-        var clockEntry = new ClockEntry(1L, clockTime, false);
+        var clockEntry = new ClockEntry("reg123456",1L, clockTime, false);
         var dummyClock = clockEntry.toClock();
 
 
@@ -52,7 +57,7 @@ public class ClockUseCaseImplTest {
     public void shouldClockOutWhenLastClockIsClockIn() {
         // Arrange
         var clockTime = LocalDateTime.now();
-        var clockEntry = new ClockEntry(1L, clockTime, false);
+        var clockEntry = new ClockEntry("reg123456", 1L, clockTime, false);
         var dummyClock = clockEntry.toClock();
         var lastClock = Clock.builder().clockType(ClockType.IN).build();
 
@@ -71,7 +76,7 @@ public class ClockUseCaseImplTest {
     public void shouldClockInWhenLastClockIsClockOut() {
         // Arrange
         var clockTime = LocalDateTime.now();
-        var clockEntry = new ClockEntry(1L, clockTime, false);
+        var clockEntry = new ClockEntry("reg123456", 1L, clockTime, false);
         var dummyClock = clockEntry.toClock();
         var lastClock = Clock.builder().clockType(ClockType.OUT).build();
 
@@ -80,6 +85,29 @@ public class ClockUseCaseImplTest {
 
         // Act
         when(clockRepository.getLastClockForEmployee(any())).thenReturn(Optional.of(lastClock));
+        dummyClock.setClockType(ClockType.IN);
+        when(clockRepository.clockInOrClockOut(any())).thenReturn(dummyClock);
+        var result = clockUseCase.clockInOrClockOut(clockEntry);
+
+        // Assert
+        assertEquals(ClockType.IN, result.getClockType());
+    }
+
+    @Test
+    public void shouldClockInWhenDataIsNewEmployeeIdIsNullAndHasRegistry() {
+        // Arrange
+        var clockTime = LocalDateTime.now();
+        var clockEntry = new ClockEntry("reg123456",null, clockTime, false);
+        var dummyClock = clockEntry.toClock();
+        var employee = Employee.builder()
+                .registry("reg123456")
+                .id(1L)
+                .build();
+
+
+        // Act
+        when(employeeRepository.findEmployeeByRegistry(eq("reg123456"))).thenReturn(employee);
+        when(clockRepository.getLastClockForEmployee(any())).thenReturn(Optional.empty());
         dummyClock.setClockType(ClockType.IN);
         when(clockRepository.clockInOrClockOut(any())).thenReturn(dummyClock);
         var result = clockUseCase.clockInOrClockOut(clockEntry);
