@@ -26,8 +26,8 @@ public class AuthController {
     @ResponseBody
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<AuthLoginResponseDTO> login(@RequestBody AuthLoginRequestDTO login) {
-        log.debug("incoming login request [username:{}][registry:{}]", login.getUsername(), login.getRegistry());
-        var usernameOrRegistry = login.getUsername() != null && login.getUsername().isBlank() ? login.getUsername() : login.getRegistry();
+        log.info("incoming login request [username:{}][registry:{}]", login.getUsername(), login.getRegistry());
+        var usernameOrRegistry = login.getUsername() != null && !login.getUsername().isBlank() ? login.getUsername() : login.getRegistry();
         var authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usernameOrRegistry, login.getPassword()));
         var registry = authentication.getName();
