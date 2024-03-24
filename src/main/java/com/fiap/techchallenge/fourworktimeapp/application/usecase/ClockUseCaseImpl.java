@@ -32,6 +32,7 @@ public class ClockUseCaseImpl implements ClockUseCase {
         if (entry.getEmployeeId() == null) {
             var employeeFound = employeeRepository.findEmployeeByRegistry(entry.getRegistry());
             entry.setEmployeeId(employeeFound.getId());
+            clock.setEmployeeId(employeeFound.getId());
         }
 
 
