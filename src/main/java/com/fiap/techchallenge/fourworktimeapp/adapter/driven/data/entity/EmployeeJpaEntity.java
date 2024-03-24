@@ -19,6 +19,8 @@ public class EmployeeJpaEntity {
     @Column(columnDefinition = "serial")
     private Long id;
 
+    private String username;
+
     private String registry;
 
     private String password;
@@ -35,6 +37,7 @@ public class EmployeeJpaEntity {
     public Employee toEmployee() {
         return Employee.builder()
                 .id(id)
+                .username(username)
                 .registry(registry)
                 .password(password)
                 .role(role)
@@ -45,6 +48,7 @@ public class EmployeeJpaEntity {
 
     public static EmployeeJpaEntity fromEmployee(Employee employee) {
         var jpaEntity = EmployeeJpaEntity.builder()
+                .username(employee.getUsername())
                 .registry(employee.getRegistry())
                 .password(employee.getPassword())
                 .role(employee.getRole())

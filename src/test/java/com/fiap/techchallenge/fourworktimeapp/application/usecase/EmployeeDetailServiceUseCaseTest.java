@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDateTime;
 
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 public class EmployeeDetailServiceUseCaseTest {
 
@@ -23,20 +25,24 @@ public class EmployeeDetailServiceUseCaseTest {
     @InjectMocks
     private EmployeeDetailServiceUseCase employeeDetailServiceUseCase;
 
-    /**
-     * Test for loadUserByUsername method. Employee is found in the repository.
-     */
     @Test
-    public void shouldLoadUserByUsernameTestWhenEmployeeFound() {
+    public void shouldLoadUserByUsernameTestWhenEmployeeFoundWithRegistry() {
         // Arrange
-        var employee = new Employee(1L, "reg123456", "password", Role.WORKER, LocalDateTime.now(), LocalDateTime.now());
+        Employee employee = Employee.builder()
+                .id(1L)
+                .username("the_employee")
+                .registry("reg123456")
+                .password("password")
+                .role(Role.WORKER)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
         // Act
-        Mockito.when(employeeRepository.findEmployeeByRegistry("123456"))
+        when(employeeRepository.findEmployeeToAuthenticate("reg123456"))
                 .thenReturn(employee);
-        var userDetails = employeeDetailServiceUseCase.loadUserByUsername("123456");
+        var userDetails = employeeDetailServiceUseCase.loadUserByUsername("reg123456");
 
-        // Assert
         Assertions.assertNotNull(userDetails);
         Assertions.assertEquals(employee.getRegistry(), userDetails.getUsername());
         Assertions.assertEquals(employee.getPassword(), userDetails.getPassword());
@@ -44,12 +50,10 @@ public class EmployeeDetailServiceUseCaseTest {
 
     @Test
     public void shouldThrowExceptionWhileLoadUserByUsernameTestWhenEmployeeNotFound() {
-        // Arrange & Act
-        Mockito.when(employeeRepository.findEmployeeByRegistry("123456")).thenThrow(new UsernameNotFoundException("username not found"));
+        when(employeeRepository.findEmployeeToAuthenticate("reg123456")).thenThrow(new UsernameNotFoundException("username not found"));
 
-        // Assert
         Assertions.assertThrows(UsernameNotFoundException.class, () -> {
-            employeeDetailServiceUseCase.loadUserByUsername("123456");
+            employeeDetailServiceUseCase.loadUserByUsername("reg123456");
         });
     }
 }

@@ -41,10 +41,10 @@ public class AuthControllerTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
-    
+
     @Mock
     private JwtUtil jwtUtil;
-    
+
     @Mock
     private EmployeeUseCase employeeUseCase;
 
@@ -57,21 +57,21 @@ public class AuthControllerTest {
                 .standaloneSetup(controller)
                 .build();
     }
-    
+
     @Test
     void shouldLogin() throws Exception {
         // Arranct
-        var loginRequest = new AuthLoginRequestDTO("registry-test", "test-pass");
+        var loginRequest = new AuthLoginRequestDTO("username", "registry-test", "test-pass");
         var authentication = new UsernamePasswordAuthenticationToken(loginRequest.getRegistry(), loginRequest.getPassword());
-        
+
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
         when(jwtUtil.createToken(any())).thenReturn("TestJWTToken");
 
         // Act & Assert
         mockMvc.perform(post("/v1/auth/login")
-                .content(asJsonString(loginRequest))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                        .content(asJsonString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -92,7 +92,7 @@ public class AuthControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-    
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
