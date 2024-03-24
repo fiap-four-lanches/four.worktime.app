@@ -70,6 +70,7 @@ public class SecurityConfig {
                     .requestMatchers("/v1/auth/login").permitAll()
                     .requestMatchers("/v1/auth/register").permitAll()
                     .requestMatchers("/ping").permitAll()
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);

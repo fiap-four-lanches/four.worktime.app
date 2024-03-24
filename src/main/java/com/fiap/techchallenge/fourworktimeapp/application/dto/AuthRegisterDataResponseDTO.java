@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AuthRegisterDataResponseDTO {
     private String registry;
+    private Long employeeId;
     private LocalDateTime createdAt;
 
     public static AuthRegisterDataResponseDTO fromEmployee(Employee employee) {
-        return new AuthRegisterDataResponseDTO(employee.getRegistry(), employee.getCreatedAt());
+        return new AuthRegisterDataResponseDTO(employee.getRegistry(), employee.getId(), employee.getCreatedAt());
     }
 }

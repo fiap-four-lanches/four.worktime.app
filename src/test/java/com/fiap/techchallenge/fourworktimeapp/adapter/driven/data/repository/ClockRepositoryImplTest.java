@@ -6,19 +6,21 @@ import com.fiap.techchallenge.fourworktimeapp.domain.entity.Clock;
 import com.fiap.techchallenge.fourworktimeapp.domain.entity.ClockType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +28,9 @@ public class ClockRepositoryImplTest {
 
     @Mock
     private ClockJpaRepository jpaRepository;
+
+    @Captor
+    private ArgumentCaptor<LocalDateTime> dateCaptor;
 
     @InjectMocks
     private ClockRepositoryImpl clockRepository;
@@ -78,6 +83,24 @@ public class ClockRepositoryImplTest {
 
         // Assert
         assertTrue(actualClock.isEmpty(), "Expected an empty Optional<Clock>");
+    }
+
+
+    @Test
+    public void shouldReturnAllClocksForCurrentMonthByForEmployee() {
+        // Arrange
+        var employeeId = 1L;
+        when(jpaRepository.findByEmployeeIdAndClockedTimeAfter(eq(employeeId), dateCaptor.capture()))
+                .thenReturn(Collections.emptyList());
+
+        // Act
+        clockRepository.getAllClocksFromCurrentMonthForEmployee(employeeId);
+
+        LocalDateTime expectedLocalDateTime = dateCaptor.getValue();
+        // Assert
+        assertThat(expectedLocalDateTime.getDayOfMonth()).isEqualTo(1);
+        assertThat(expectedLocalDateTime.getMonthValue()).isEqualTo(LocalDateTime.now().getMonthValue());
+        assertThat(expectedLocalDateTime.getYear()).isEqualTo(LocalDateTime.now().getYear());
     }
 
     // This method is to generate a sample clock
