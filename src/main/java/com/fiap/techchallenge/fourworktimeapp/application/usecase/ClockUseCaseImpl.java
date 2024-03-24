@@ -3,6 +3,7 @@ package com.fiap.techchallenge.fourworktimeapp.application.usecase;
 import com.fiap.techchallenge.fourworktimeapp.domain.entity.Clock;
 import com.fiap.techchallenge.fourworktimeapp.domain.entity.ClockType;
 import com.fiap.techchallenge.fourworktimeapp.domain.repository.ClockRepository;
+import com.fiap.techchallenge.fourworktimeapp.domain.repository.EmployeeRepository;
 import com.fiap.techchallenge.fourworktimeapp.domain.usecase.ClockUseCase;
 import com.fiap.techchallenge.fourworktimeapp.domain.valueobject.ClockEntry;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 public class ClockUseCaseImpl implements ClockUseCase {
 
     private ClockRepository repository;
+    private EmployeeRepository employeeRepository;
 
     @Transactional
     @Override
@@ -26,6 +28,12 @@ public class ClockUseCaseImpl implements ClockUseCase {
         var now = LocalDateTime.now();
         clock.setCreatedAt(now);
         clock.setUpdatedAt(now);
+
+        if (entry.getEmployeeId() == null) {
+            var employeeFound = employeeRepository.findEmployeeByRegistry(entry.getRegistry());
+            entry.setEmployeeId(employeeFound.getId());
+            clock.setEmployeeId(employeeFound.getId());
+        }
 
 
         var lastClockFound = repository.getLastClockForEmployee(entry.getEmployeeId());

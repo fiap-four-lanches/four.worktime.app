@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface EmployeeJpaRepository extends JpaRepository<EmployeeJpaEntity, Long> {
     Optional<EmployeeJpaEntity> findEmployeeJpaEntityByRegistry(String registry);
+
+    Optional<EmployeeJpaEntity> findEmployeeJpaEntityByUsername(String username);
 }

@@ -7,6 +7,7 @@ import com.fiap.techchallenge.fourworktimeapp.domain.entity.Employee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -22,6 +23,50 @@ public class EmployeeRepositoryImplTest {
 
     @Mock
     EmployeeJpaRepository jpaRepository;
+
+
+    @Test
+    public void shouldFindEmployeeToAuthenticateByUsername() {
+        // Arrange
+        String registries = "123";
+        var employee = new EmployeeJpaEntity();
+
+        // Act
+        when(jpaRepository.findEmployeeJpaEntityByUsername(registries)).thenReturn(Optional.of(employee));
+        var employeeRepository = new EmployeeRepositoryImpl(jpaRepository);
+
+        // Assert
+        assertNotNull(employeeRepository.findEmployeeToAuthenticate(registries));
+    }
+
+    @Test
+    public void shouldFindEmployeeToAuthenticateByRegistry() {
+        // Arrange
+        String registries = "123";
+        var employee = new EmployeeJpaEntity();
+
+        // Act
+        when(jpaRepository.findEmployeeJpaEntityByUsername(registries)).thenReturn(Optional.empty());
+        when(jpaRepository.findEmployeeJpaEntityByRegistry(registries)).thenReturn(Optional.of(employee));
+        var employeeRepository = new EmployeeRepositoryImpl(jpaRepository);
+
+        // Assert
+        assertNotNull(employeeRepository.findEmployeeToAuthenticate(registries));
+    }
+
+    @Test
+    public void shouldThrowNotFindWhenTryingToFindEmployeeToAuthenticate() {
+        // Arrange
+        String registries = "123";
+        var employeeRepository = new EmployeeRepositoryImpl(jpaRepository);
+
+        // Act
+        when(jpaRepository.findEmployeeJpaEntityByUsername(registries)).thenReturn(Optional.empty());
+        when(jpaRepository.findEmployeeJpaEntityByRegistry(registries)).thenReturn(Optional.empty());
+
+        // Assert
+        assertThrows(EmployeeNotFoundException.class, () -> employeeRepository.findEmployeeToAuthenticate(registries));
+    }
 
     @Test
     public void shouldFindEmployeeByRegistry() {

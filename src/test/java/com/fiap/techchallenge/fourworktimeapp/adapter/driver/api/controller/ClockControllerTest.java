@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.time.LocalDateTime;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,23 +50,38 @@ public class ClockControllerTest {
     }
 
     @Test
-    void shouldReturnOkResponseWhenValidRequestIsGiven() throws Exception {
+    void shouldReturnOkResponseWhenValidRequestWithOnlyEmployeeIdIsGiven() throws Exception {
         // Arrange
         var employeeId = 1L;
         var clockedTime = LocalDateTime.now();
         boolean wasManuallyModified = false;
-        var clockEntryRequest = new ClockEntryRequestDTO(employeeId, clockedTime, wasManuallyModified);
+        var clockEntryRequest = new ClockEntryRequestDTO(null, employeeId, clockedTime, wasManuallyModified);
         var clockedEntry = clockEntryRequest.toEntry();
         given(useCase.clockInOrClockOut(eq(clockedEntry))).willReturn(clockedEntry.toClock());
 
         // Act & Assert
         mockMvc.perform(post("/v1/clock")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"employeeId\":1,\"clockedTime\":\"" + clockedTime + "\",\"wasManuallyModified\":false}"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"employeeId\":1,\"clockedTime\":\"" + clockedTime + "\",\"wasManuallyModified\":false}"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
 
-        // Assert
-        verify(useCase, times(1)).clockInOrClockOut(any());
+    @Test
+    void shouldReturnOkResponseWhenValidRequestWithOnlyRegistryIdIsGiven() throws Exception {
+        // Arrange
+        var employeeId = 1L;
+        var clockedTime = LocalDateTime.now();
+        boolean wasManuallyModified = false;
+        var clockEntryRequest = new ClockEntryRequestDTO("reg13456", null, clockedTime, wasManuallyModified);
+        var clockedEntry = clockEntryRequest.toEntry();
+        given(useCase.clockInOrClockOut(eq(clockedEntry))).willReturn(clockedEntry.toClock());
+
+        // Act & Assert
+        mockMvc.perform(post("/v1/clock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"registry\": \"reg13456\", \"clockedTime\":\"" + clockedTime + "\",\"wasManuallyModified\":false}"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 }

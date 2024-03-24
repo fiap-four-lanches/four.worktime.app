@@ -18,8 +18,8 @@ public class EmployeeDetailServiceUseCase implements UserDetailsService {
     private final EmployeeRepositoryImpl repository;
 
     @Override
-    public UserDetails loadUserByUsername(String registry) throws UsernameNotFoundException {
-        var employee = repository.findEmployeeByRegistry(registry);
+    public UserDetails loadUserByUsername(String usernameOrRegistry) throws UsernameNotFoundException {
+        var employee = repository.findEmployeeToAuthenticate(usernameOrRegistry);
         List<String> roles = new ArrayList<>();
         roles.add(employee.getRole().toString());
         return User.builder()

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Employee {
     private Long id;
+    private String username;
     private String registry;
     private String password;
     private Role role;
