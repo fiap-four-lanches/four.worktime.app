@@ -77,8 +77,9 @@ public class AuthControllerTest {
 
     @Test
     void shouldRegister() throws Exception {
-        var registerRequest = new AuthRegisterRequestDTO("registry-test", "test-pass");
+        var registerRequest = new AuthRegisterRequestDTO("username", "registry-test", "test-pass");
         var employee = Employee.builder()
+                .username(registerRequest.getUsername())
                 .registry(registerRequest.getRegistry())
                 .password(registerRequest.getPassword())
                 .build();

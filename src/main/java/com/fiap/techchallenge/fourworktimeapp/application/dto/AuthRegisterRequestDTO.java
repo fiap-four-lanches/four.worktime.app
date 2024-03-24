@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRegisterRequestDTO {
+    private String username;
     private String registry;
     private String password;
 
     public Employee toWorkerEmployee() {
         return Employee.builder()
+                .username(this.username)
                 .registry(this.registry)
                 .password(this.password)
                 .role(Role.WORKER)
