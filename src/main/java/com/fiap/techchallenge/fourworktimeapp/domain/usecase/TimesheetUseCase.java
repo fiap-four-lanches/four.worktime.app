@@ -9,4 +9,6 @@ import java.util.List;
 public interface TimesheetUseCase {
 
     List<TimesheetDailyEntry> viewTimesheet(Long employeeId);
+
+    void sendLastTimesheet(Long employeeId, String requesterEmail);
 }

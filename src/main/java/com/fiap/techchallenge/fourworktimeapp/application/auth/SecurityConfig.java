@@ -69,6 +69,7 @@ public class SecurityConfig {
             authenticationManager
                     .requestMatchers("/v1/auth/login").permitAll()
                     .requestMatchers("/v1/auth/register").permitAll()
+                    .requestMatchers("/v1/timesheet/send").permitAll()
                     .requestMatchers("/ping").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .anyRequest().authenticated()
@@ -86,7 +87,7 @@ public class SecurityConfig {
                 new UrlBasedCorsConfigurationSource();
         var config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("localhost");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

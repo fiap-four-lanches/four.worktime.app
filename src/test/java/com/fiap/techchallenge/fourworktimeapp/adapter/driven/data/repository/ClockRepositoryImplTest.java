@@ -32,6 +32,12 @@ public class ClockRepositoryImplTest {
     @Captor
     private ArgumentCaptor<LocalDateTime> dateCaptor;
 
+    @Captor
+    private ArgumentCaptor<LocalDateTime> endDateCaptor;
+
+    @Captor
+    private ArgumentCaptor<LocalDateTime> startDateCaptor;
+
     @InjectMocks
     private ClockRepositoryImpl clockRepository;
 
@@ -102,6 +108,27 @@ public class ClockRepositoryImplTest {
         assertThat(expectedLocalDateTime.getMonthValue()).isEqualTo(LocalDateTime.now().getMonthValue());
         assertThat(expectedLocalDateTime.getYear()).isEqualTo(LocalDateTime.now().getYear());
     }
+
+    @Test
+    public void shouldReturnAllClocksForLasMonthByForEmployee() {
+        // Arrange
+        var employeeId = 1L;
+        when(jpaRepository.findByEmployeeIdAndClockedTimeAfterAndClockedTimeBefore(eq(employeeId), startDateCaptor.capture(), endDateCaptor.capture()))
+                .thenReturn(Collections.emptyList());
+
+        // Act
+        clockRepository.getAllLastMonthClocksForEmployee(employeeId);
+
+        LocalDateTime expectedStartDate = startDateCaptor.getValue();
+        LocalDateTime expectedEndDate = endDateCaptor.getValue();
+
+        // Assert
+        assertThat(expectedStartDate.getDayOfMonth()).isEqualTo(1);
+        assertThat(expectedStartDate.getMonthValue()).isEqualTo(2);
+        assertThat(expectedEndDate.getDayOfMonth()).isEqualTo(29);
+        assertThat(expectedEndDate.getMonthValue()).isEqualTo(2);
+    }
+
 
     // This method is to generate a sample clock
     private Clock generateSampleClock(LocalDateTime ts) {

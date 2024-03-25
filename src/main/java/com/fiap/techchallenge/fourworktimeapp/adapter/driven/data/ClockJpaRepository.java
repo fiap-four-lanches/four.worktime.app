@@ -16,4 +16,7 @@ public interface ClockJpaRepository extends JpaRepository<ClockJpaEntity, Long> 
     Optional<ClockJpaEntity> getClockJpaEntitiesByEmployeeIdOrderByClockedTimeDescLimit1(Long employeeId);
 
     List<ClockJpaEntity> findByEmployeeIdAndClockedTimeAfter(Long employeeId, LocalDateTime clockedTime);
+
+    List<ClockJpaEntity> findByEmployeeIdAndClockedTimeAfterAndClockedTimeBefore(Long employeeId, LocalDateTime startClockedTime, LocalDateTime endClockedTime);
+
 }
