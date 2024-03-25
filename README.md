@@ -6,8 +6,8 @@ Aplicação MVP para demonstração no Hackathon da FIAP Post Tech - SOAT1.
 - [x] Add login endpoint and routes protection
 - [x] Add register endpoint (extra)
 - [x] Add clock in/clock out endpoint for work time registration endpoint
-- [ ] Add work time summary endpoint
-- [ ] Add monthly report generation endpoint
+- [x] Add work time summary endpoint
+- [x] Add monthly report generation endpoint
 
 ## DOC
 
@@ -56,5 +56,10 @@ padrão é a 8080, mas se entrar em conflito será necessário troca-la.
 Para executar as requisições com o insomnia, basta importar o arquivo `fourwoktimeapp.har`
 no seu insomnia que a collection estará pronta para ser usada. Detalhe ao usar a porta configurada na aplicação, que por
 padrão é a 8080, mas se entrar em conflito será necessário troca-la.
+
+### 4.3 Com Swagger
+Também é possível testar com o swagger, basta acessar a url: http://localhost:8080/swagger-ui/index.html. Lembrando de
+que se trocar a porta no arquivo do docker-compose ou no application.properties, a mesma deverá ser colocada na url para
+acessar o swagger
 
 ### 5. Links Adicionais
